@@ -30,8 +30,11 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: java-app
-          path: ${{ github.workspace }}/target/app.zip
+            name: java-app
+            path: |
+              ${{ github.workspace }}/target/app.jar
+              ${{ github.workspace }}/web.config
+
 
   deploy:
     runs-on: windows-latest
@@ -45,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: java-app
-
+          path: app
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -53,4 +56,5 @@ jobs:
           app-name: 'SpringbootDeploymentMediChain'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CB0E97AAC10442FEA51D1E8DEF816ACF }}
-          package: '*.zip'
+          package: app
+
