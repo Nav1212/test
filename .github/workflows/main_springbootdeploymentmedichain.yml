@@ -24,4 +24,4 @@ jobs:
           app-name: 'SpringbootDeploymentMediChain'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CB0E97AAC10442FEA51D1E8DEF816ACF }}
-          package: 'path/to/your/jar/file.jar' # Replace this with the path to your JAR file
+          package: 'Medichaintest-0.0.1-SNAPSHOT.jar' # Replace this with the path to your JAR file
