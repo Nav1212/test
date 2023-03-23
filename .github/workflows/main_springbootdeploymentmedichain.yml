@@ -1,4 +1,4 @@
-name: Build and deploy JAR app to Azure Web App - SpringbootDeploymentMediChain
+name: Deploy JAR app to Azure Web App - SpringbootDeploymentMediChain
 
 on:
   push:
@@ -7,39 +7,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    runs-on: windows-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Set up Java version
-        uses: actions/setup-java@v1
-        with:
-          java-version: '17'
-
-      - name: Build with Maven
-        run: mvn clean install
-        # No need for the working-directory option here
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: java-app
-          path: '${{ github.workspace }}/target/*.jar' # Update this line
-
   deploy:
     runs-on: windows-latest
-    needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: java-app
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -48,4 +24,4 @@ jobs:
           app-name: 'SpringbootDeploymentMediChain'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CB0E97AAC10442FEA51D1E8DEF816ACF }}
-          package: '*.jar'
+          package: 'path/to/your/jar/file.jar' # Replace this with the path to your JAR file
