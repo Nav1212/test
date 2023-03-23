@@ -20,13 +20,13 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-        working-directory: ./test # Add this line
+        # No need for the working-directory option here
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: '${{ github.workspace }}/test/target/*.jar' # Update this line
+          path: '${{ github.workspace }}/target/*.jar' # Update this line
 
   deploy:
     runs-on: windows-latest
