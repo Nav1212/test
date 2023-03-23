@@ -25,13 +25,13 @@ jobs:
         run: |
           copy web.config target\web.config
           cd target
-          tar -czvf app.tar.gz *.jar web.config
+          powershell -c "Compress-Archive -Path *.jar,web.config -DestinationPath app.zip"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
           name: java-app
-          path: ${{ github.workspace }}/target/app.tar.gz
+          path: ${{ github.workspace }}/target/app.zip
 
   deploy:
     runs-on: windows-latest
@@ -53,4 +53,4 @@ jobs:
           app-name: 'SpringbootDeploymentMediChain'
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_CB0E97AAC10442FEA51D1E8DEF816ACF }}
-          package: '*.tar.gz'
+          package: '*.zip'
